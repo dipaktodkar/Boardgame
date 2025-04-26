@@ -6,7 +6,7 @@ stages:          # List of stages for jobs, and their order of execution
   - build
   - docker
  
-install_mvn_trivy_docker_kubectl:       # This job runs in the build stage, which runs first.
+install_mvn_trivy_docker_kubectl:
   stage: install_tools
   script:
     - sudo apt install openjdk-17-jre-headless -y
@@ -19,14 +19,14 @@ install_mvn_trivy_docker_kubectl:       # This job runs in the build stage, whic
   tags:
     - self-hosted
 
-unit_testing:       # This job runs in the build stage, which runs first.
+unit_testing:
   stage: test
   script:
     - mvn test    
   tags:
     - self-hosted
 
-trivy_fs_scan:       # This job runs in the build stage, which runs first.
+trivy_fs_scan:
   stage: security
   script:
     - trivy fs --format table -o fs.html .    
@@ -50,7 +50,7 @@ sonarqube-check:
   only:
     - main
 
-build_app:       # This job runs in the build stage, which runs first.
+build_app:
   stage: build
   script:
     - mvn package   
@@ -59,7 +59,7 @@ build_app:       # This job runs in the build stage, which runs first.
   only:
     - main
 
-build_tag_push_image:       # This job runs in the build stage, which runs first.
+build_tag_push_image:
   stage: docker
   script:
     - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
